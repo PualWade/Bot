@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -14,8 +15,8 @@ namespace Bot
         static IrcClient Irc = new IrcClient();
         const int port = 6667;
         static string ip = "irc.root-me.org";
-        static string nick = "botTest";
-        static string realname = "real " + nick;
+        static string nick = GetName(3);
+        static string realname = GetName(2) + nick;
         static string channel = "#root-me_challenge";
 
         static string serverName = "Paul_Wade";
@@ -73,6 +74,82 @@ namespace Bot
             Irc.Login(nick, realname);
             Irc.RfcJoin(channel);
             new Thread(new ThreadStart(Irc.Listen)).Start();
+        }
+        static string GetName(int iter)
+        {
+            string romanNames = @"-a
+-al
+-au +c
+-an
+-ba
+-be
+-bi
+-br +v
+-da
+-di
+-do
+-du
+-e
+-eu +c
+-fa
+bi
+be
+bo
+bu
+nul +v
++tor
+gu
+da
+au +c -c
+fri
+gus
++tus
++lus
++lius
++nus
++es
++ius -c
++cus
++cio
++tin
++ai
+-ay
++ea
+-ee
++ei
++ey
+-eu
++ew
++ie
+-oa
++oo
+-ou
+-bt
++ch
+-ck
+-dg
++gh
+-gn
++gm
+-kn
++mb
+-mn
++ng
+ph
+sh
+tch
+th
+wh
+";
+
+            StringReader rr = new StringReader(romanNames);
+            NameGenerator nameGen = new NameGenerator(rr);
+            rr.Close();
+            for (int i = 0; i < 100; i++)
+            {
+                Console.WriteLine(nameGen.Compose(iter));
+            }
+            return nameGen.Compose(iter);
         }
     }
 }
