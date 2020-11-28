@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Text_Channels IRS.txt" />
+    <Content Include="Text_MasterName.txt" />
     <Content Include="Text_Servers IRS RUS.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
