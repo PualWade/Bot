@@ -70,8 +70,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Channels IRS.txt" />
-    <Content Include="Servers IRS RUS.txt" />
+    <Content Include="Text_Channels IRS.txt" />
+    <Content Include="Text_Servers IRS RUS.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

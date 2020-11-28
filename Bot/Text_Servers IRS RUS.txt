@@ -1,0 +1,7 @@
+﻿ircnet.bsim.ru $ Golden's iRCNet(RU)-BSIM.ru server
+irc.ircnet.su, $ IRCNet.Ru Main Hub, Moscow, Russia
+irc.krasnogorsk.ru, $ RedNet HUB Server
+irc.qwertylife.ru, $ QWERTY IRC Server, Moscow, Russia
+irc.egghelp.ru,$ Egghelp.ru server, Saint-Petersburg, Russia
+
+irc.ircnet.ru, порт 6667 - редирект на самые стабильные сервера сети.
