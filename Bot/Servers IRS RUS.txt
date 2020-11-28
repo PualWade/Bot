@@ -1,0 +1,9 @@
+﻿Серверы сети, доступные пользователям:
+
+Сервер: ircnet.bsim.ru, порт: 6667, описание: Golden's iRCNet(RU)-BSIM.ru server
+Сервер: irc.ircnet.su, порт: 6667, описание: IRCNet.Ru Main Hub, Moscow, Russia
+Сервер: irc.krasnogorsk.ru, порт: 6667, описание: RedNet HUB Server
+Сервер: irc.qwertylife.ru, порт: 6667, описание: QWERTY IRC Server, Moscow, Russia
+Сервер: irc.egghelp.ru, порт: 6667, описание: Egghelp.ru server, Saint-Petersburg, Russia
+
+irc.ircnet.ru, порт 6667 - редирект на самые стабильные сервера сети.

@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Meebey.SmartIrc4net;
 
-namespace Bot
+namespace Bot                       //https://www.root-me.org/spip.php?page=webirc&lang=en
 {
     class Program
     {
@@ -28,8 +28,9 @@ namespace Bot
             Irc.SendDelay = 200;
             Irc.ActiveChannelSyncing = true;
             Irc.OnRawMessage += Irc_OnRawMessage;
+            Irc.OnQueryMessage += Irc_OnQueryMessage;
             Irc.OnErrorMessage += Irc_OnErrorMessage;
-            Connect();
+            if (Irc.GetChannelUser(channel, nick) == null) Connect();
             while (true)
             {
                 string msg = Console.ReadLine();
@@ -39,8 +40,19 @@ namespace Bot
             
         }
 
-        private static void Irc_OnErrorMessage(object sender, IrcEventArgs e)
+        private static void Irc_OnQueryMessage(object sender, IrcEventArgs e)
         {
+            
+        }
+
+        private static /*async*/ void Irc_OnErrorMessage(object sender, IrcEventArgs e)
+        {
+            if (e.Data.Message == "Nickname is already in use.")
+            {
+                //    await Task.Run(()=>Irc.Disconnect());
+                //    nick = GetName(3);
+                //    Connect();
+            }
             Console.WriteLine("ERROR: " + e.Data.Message);
         }
 
@@ -68,12 +80,12 @@ namespace Bot
             }
         }
 
-        static void Connect()
+        static async void Connect()
         {
             Irc.Connect(ip, port);
             Irc.Login(nick, realname);
             Irc.RfcJoin(channel);
-            new Thread(new ThreadStart(Irc.Listen)).Start();
+            await Task.Run(()=>Irc.Listen());
         }
         static string GetName(int iter)
         {
