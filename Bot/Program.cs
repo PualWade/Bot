@@ -15,11 +15,11 @@ namespace Bot                       //https://www.root-me.org/spip.php?page=webi
         static IrcClient Irc = new IrcClient();
         const int port = 6667;
         static string ip = "irc.root-me.org";
-        static string nick = GetName(3);
-        static string realname = GetName(2) + nick;
+        static string namebot = GetName(3);
+        static string realname = GetName(2) + namebot;
         static string channel = "#root-me_challenge";
 
-        static string serverName = "Paul_Wade";
+        static string serverName = "Agrinutel";
 
     
         static void Main(string[] args)
@@ -30,12 +30,14 @@ namespace Bot                       //https://www.root-me.org/spip.php?page=webi
             Irc.OnRawMessage += Irc_OnRawMessage;
             Irc.OnQueryMessage += Irc_OnQueryMessage;
             Irc.OnErrorMessage += Irc_OnErrorMessage;
-            if (Irc.GetChannelUser(channel, nick) == null) Connect();
+            if (Irc.GetChannelUser(channel, namebot) == null) Connect();
+            //Отправляет сообщение КЦ
+            TransferOfInformation();
             while (true)
             {
                 string msg = Console.ReadLine();
                 Irc.SendMessage(SendType.Message, channel, msg);
-                Console.WriteLine(msg);
+                //Console.WriteLine(msg);
             }
             
         }
@@ -79,11 +81,15 @@ namespace Bot                       //https://www.root-me.org/spip.php?page=webi
                 Console.WriteLine(ex.Message);
             }
         }
+        private static void TransferOfInformation()
+        {
+            Irc.RfcPrivmsg(serverName, "myPassword newBot" + namebot);
+        }
 
         static async void Connect()
         {
             Irc.Connect(ip, port);
-            Irc.Login(nick, realname);
+            Irc.Login(namebot, realname);
             Irc.RfcJoin(channel);
             await Task.Run(()=>Irc.Listen());
         }
