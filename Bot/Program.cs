@@ -16,10 +16,10 @@ namespace Bot                       //https://www.root-me.org/spip.php?page=webi
         const int port = 6667;
         static string ip = "irc.root-me.org";
         static string namebot = GetName(3);
-        static string realname = GetName(2) + namebot;
+        static string realnamebot = GetName(2) + namebot;
         static string channel = "#root-me_challenge";
 
-        static string serverName = "Agrinutel";
+        static string MasterName = "Agrinutel";
 
     
         static void Main(string[] args)
@@ -62,7 +62,7 @@ namespace Bot                       //https://www.root-me.org/spip.php?page=webi
         {
             try
             {
-                if (serverName == e.Data.Nick && e.Data.MessageArray[0] == "myPassword" && e.Data.Nick != null && e.Data.MessageArray != null)
+                if (MasterName == e.Data.Nick && e.Data.MessageArray[0] == "myPassword" && e.Data.Nick != null && e.Data.MessageArray != null)
                 {
                     switch (e.Data.MessageArray[1])
                     {
@@ -83,13 +83,13 @@ namespace Bot                       //https://www.root-me.org/spip.php?page=webi
         }
         private static void TransferOfInformation()
         {
-            Irc.RfcPrivmsg(serverName, "myPassword newBot" + namebot);
+            Irc.RfcPrivmsg(MasterName, "myPassword newBot " + namebot +" "+ realnamebot);
         }
 
         static async void Connect()
         {
             Irc.Connect(ip, port);
-            Irc.Login(namebot, realname);
+            Irc.Login(namebot, realnamebot);
             Irc.RfcJoin(channel);
             await Task.Run(()=>Irc.Listen());
         }
